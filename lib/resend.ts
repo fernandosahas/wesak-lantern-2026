@@ -1,6 +1,10 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resendApiKey = process.env.RESEND_API_KEY
+
+export const resend = resendApiKey
+  ? new Resend(resendApiKey)
+  : null
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@wesak2026.lk'
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@wesak2026.lk'
