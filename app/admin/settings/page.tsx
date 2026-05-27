@@ -26,7 +26,6 @@ export default async function SettingsPage() {
             { label: 'Environment', value: process.env.NODE_ENV },
             { label: 'Supabase', value: process.env.NEXT_PUBLIC_SUPABASE_URL ? '✅ Connected' : '❌ Not configured' },
             { label: 'Cloudinary', value: process.env.CLOUDINARY_CLOUD_NAME ? '✅ Connected' : '❌ Not configured' },
-            { label: 'Resend', value: process.env.RESEND_API_KEY ? '✅ Connected' : '❌ Not configured' },
             { label: 'Turnstile', value: process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY ? '✅ Connected' : '⚠️ Using test key' },
           ].map((row) => (
             <div key={row.label} className="flex items-center justify-between py-2 border-b border-border/50 last:border-0">

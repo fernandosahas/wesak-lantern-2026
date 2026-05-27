@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { hashIP, getClientIP, validateTurnstile } from '@/lib/utils'
 import { rateLimit } from '@/lib/rate-limit'
-import { sendSuspiciousActivityAlert } from '@/lib/resend'
 import type { VoteRequest } from '@/types'
 import { z } from 'zod'
 
@@ -134,14 +133,6 @@ export async function POST(request: NextRequest) {
   }
 
   if (fpCheck.data && fpCheck.data.length > 0) {
-    // Send suspicious activity alert (same fingerprint, different IP)
-    await sendSuspiciousActivityAlert({
-      ip_hash: ipHash,
-      fingerprint,
-      lantern_id,
-      reason: 'Duplicate fingerprint detected',
-    }).catch(() => {})
-
     return NextResponse.json(
       { success: false, error: 'You have already voted from this browser.' },
       { status: 409 }
