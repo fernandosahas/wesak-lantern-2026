@@ -4,6 +4,7 @@ import { timeAgo } from '@/lib/utils'
 import type { AdminLog } from '@/types'
 
 export const metadata: Metadata = { title: 'Activity Logs' }
+export const dynamic = 'force-dynamic'
 export const revalidate = 15
 
 const actionLabels: Record<string, { label: string; color: string }> = {

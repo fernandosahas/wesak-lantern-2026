@@ -4,6 +4,7 @@ import { VotingToggle } from '@/components/admin/voting-toggle'
 import type { Settings } from '@/types'
 
 export const metadata: Metadata = { title: 'Settings' }
+export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export default async function SettingsPage() {

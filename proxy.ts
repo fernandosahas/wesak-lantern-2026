@@ -1,10 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // ── Protect admin routes ─────────────────────────────────────────
   if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
     let response = NextResponse.next({ request })
 
@@ -17,7 +16,7 @@ export async function middleware(request: NextRequest) {
             return request.cookies.getAll()
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) =>
+            cookiesToSet.forEach(({ name, value }) =>
               request.cookies.set(name, value)
             )
             response = NextResponse.next({ request })
@@ -39,7 +38,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl)
     }
 
-    // Verify admin email
     const allowedAdminEmail = process.env.ADMIN_EMAIL
     if (allowedAdminEmail && user.email !== allowedAdminEmail) {
       return NextResponse.redirect(new URL('/admin/login?error=unauthorized', request.url))
@@ -48,7 +46,6 @@ export async function middleware(request: NextRequest) {
     return response
   }
 
-  // ── Rate-limit headers ───────────────────────────────────────────
   if (pathname.startsWith('/api/vote')) {
     const response = NextResponse.next()
     response.headers.set('X-Content-Type-Options', 'nosniff')

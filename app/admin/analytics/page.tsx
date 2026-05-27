@@ -3,6 +3,7 @@ import { createServiceClient } from '@/lib/supabase/server'
 import { AnalyticsCharts } from '@/components/admin/analytics-charts'
 
 export const metadata: Metadata = { title: 'Analytics' }
+export const dynamic = 'force-dynamic'
 export const revalidate = 60
 
 export default async function AnalyticsPage() {

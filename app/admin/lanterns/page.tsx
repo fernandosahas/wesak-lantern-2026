@@ -4,6 +4,7 @@ import { LanternManagementClient } from '@/components/admin/lantern-management-c
 import type { Lantern } from '@/types'
 
 export const metadata: Metadata = { title: 'Manage Lanterns' }
+export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export default async function AdminLanternsPage() {

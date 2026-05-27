@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: 'Home | Wesak Lantern Competition 2026',
 }
 
+export const dynamic = 'force-dynamic'
 export const revalidate = 30 // revalidate every 30 seconds
 
 async function getLandingData(): Promise<{ lanterns: Lantern[]; settings: Settings | null }> {
