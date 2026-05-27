@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/server'
 import { Navigation } from '@/components/navigation'
 import { HeroSection } from '@/components/hero-section'
 import { CountdownTimer } from '@/components/countdown-timer'
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const revalidate = 30 // revalidate every 30 seconds
 
 async function getLandingData(): Promise<{ lanterns: Lantern[]; settings: Settings | null }> {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const [{ data: lanterns }, { data: settings }] = await Promise.all([
     supabase

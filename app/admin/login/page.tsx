@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Lamp, Mail, Lock, Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react'
@@ -8,6 +8,18 @@ import { createClient } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
 
 export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<LoginFallback />}>
+      <AdminLoginForm />
+    </Suspense>
+  )
+}
+
+function LoginFallback() {
+  return <div className="min-h-screen bg-background" />
+}
+
+function AdminLoginForm() {
   const router = useRouter()
   const params = useSearchParams()
   const [email, setEmail] = useState('')
