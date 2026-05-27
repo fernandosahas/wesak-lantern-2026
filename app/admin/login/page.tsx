@@ -52,8 +52,13 @@ function AdminLoginForm() {
     }
 
     toast.success('Welcome back, Admin! 🏮')
-    const redirect = params.get('redirect') || '/admin/dashboard'
-    router.push(redirect)
+    const redirectTo = params.get('redirect')
+    const safeRedirect =
+      redirectTo && redirectTo.startsWith('/admin') && redirectTo !== '/admin'
+        ? redirectTo
+        : '/admin/dashboard'
+
+    router.push(safeRedirect)
     router.refresh()
   }
 
