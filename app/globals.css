@@ -87,7 +87,10 @@ body {
 /* ── Lantern glow card ──────────────────────── */
 .lantern-card {
   position: relative;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(15, 15, 25, 0.72);
+  contain: content;
+  content-visibility: auto;
+  contain-intrinsic-size: 420px;
 }
 
 .lantern-card::before {
@@ -102,13 +105,69 @@ body {
   z-index: 0;
 }
 
-.lantern-card:hover::before {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  .lantern-card {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .lantern-card:hover::before {
+    opacity: 1;
+  }
+
+  .lantern-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--glow-gold);
+  }
 }
 
-.lantern-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: var(--glow-gold);
+@media (hover: none), (pointer: coarse), (max-width: 640px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .glass,
+  .glass-strong {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .glass {
+    background: rgba(15, 15, 25, 0.82);
+  }
+
+  .glass-strong {
+    background: rgba(15, 15, 25, 0.94);
+  }
+
+  .lantern-card::before,
+  .lantern-card:hover::before {
+    display: none;
+  }
+
+  .lantern-card,
+  .lantern-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .skeleton {
+    animation: none;
+  }
+
+  .voted-glow {
+    box-shadow: 0 0 18px rgba(245, 158, 11, 0.32);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ── Gold gradient text ─────────────────────── */

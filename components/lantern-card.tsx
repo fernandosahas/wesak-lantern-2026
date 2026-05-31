@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Heart, Eye, Trophy, Loader2, CheckCircle2 } from 'lucide-react'
-import { cn, formatNumber } from '@/lib/utils'
+import { Eye, CheckCircle2 } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { VoteButton } from './vote-button'
 import type { Lantern } from '@/types'
 
@@ -31,7 +31,7 @@ export function LanternCard({
   return (
     <div
       className={cn(
-        'lantern-card group glass rounded-2xl overflow-hidden border transition-all duration-300 cursor-pointer',
+        'lantern-card group rounded-2xl overflow-hidden border transition-colors duration-200 cursor-pointer',
         isVotedByMe
           ? 'border-gold-500/60 voted-glow'
           : 'border-border hover:border-gold-500/30'
@@ -58,7 +58,7 @@ export function LanternCard({
             alt={lantern.name}
             fill
             className={cn(
-              'object-cover transition-all duration-500 group-hover:scale-105',
+              'object-cover transition-opacity duration-200 sm:transition-transform sm:duration-300 sm:group-hover:scale-[1.03]',
               imageLoaded ? 'opacity-100' : 'opacity-0'
             )}
             onLoad={() => setImageLoaded(true)}
@@ -68,7 +68,7 @@ export function LanternCard({
         )}
 
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-100 sm:opacity-0 sm:transition-opacity sm:duration-200 sm:group-hover:opacity-100" />
 
         {/* Voted badge */}
         {isVotedByMe && (
@@ -85,7 +85,7 @@ export function LanternCard({
         {/* View button */}
         <button
           onClick={onViewDetails}
-          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 flex items-center justify-center opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100"
           aria-label={`View ${lantern.name} details`}
         >
           <div className="glass-strong px-4 py-2 rounded-full flex items-center gap-2 text-gold-400 text-sm font-medium">
@@ -96,14 +96,14 @@ export function LanternCard({
       </div>
 
       {/* Card body */}
-      <div className="p-4">
+      <div className="p-4 sm:p-5">
         <div className="mb-3">
           <h3 className="font-display font-semibold text-foreground text-lg leading-tight mb-1">
             {lantern.name}
           </h3>
-          <p className="text-muted-foreground text-sm flex items-center gap-1">
+          <p className="flex min-w-0 items-center gap-1 text-sm text-muted-foreground">
             <span className="text-gold-500/70">Team:</span>
-            <span>{lantern.team_name}</span>
+            <span className="truncate">{lantern.team_name}</span>
           </p>
         </div>
 
@@ -113,24 +113,12 @@ export function LanternCard({
           </p>
         )}
 
-        {/* Vote count */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-1.5 text-gold-500">
-            <Heart className={cn('h-4 w-4', lantern.vote_count > 0 && 'fill-gold-500')} />
-            <span className="font-semibold text-sm">
-              {formatNumber(lantern.vote_count)}
-            </span>
-            <span className="text-muted-foreground text-xs">
-              {lantern.vote_count === 1 ? 'vote' : 'votes'}
-            </span>
+        {isVotedByMe && (
+          <div className="mb-4 flex items-center gap-1 text-gold-500 text-xs">
+            <CheckCircle2 className="h-3.5 w-3.5" />
+            <span>You voted!</span>
           </div>
-          {isVotedByMe && (
-            <div className="flex items-center gap-1 text-gold-500 text-xs">
-              <Trophy className="h-3.5 w-3.5 fill-gold-500" />
-              <span>You voted!</span>
-            </div>
-          )}
-        </div>
+        )}
 
         {/* Vote button */}
         <VoteButton

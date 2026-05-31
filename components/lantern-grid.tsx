@@ -51,7 +51,7 @@ export function LanternGrid({ lanterns, votingEnabled, votingEnd }: LanternGridP
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass border border-gold-500/20 rounded-2xl p-4 mb-8 text-center"
+          className="mb-6 rounded-2xl border border-gold-500/20 glass p-4 text-center sm:mb-8"
         >
           <p className="text-gold-400 font-medium">
             👀 Voting is not yet open. Browse the lanterns below!
@@ -63,7 +63,7 @@ export function LanternGrid({ lanterns, votingEnabled, votingEnd }: LanternGridP
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="glass border border-red-500/20 rounded-2xl p-4 mb-8 text-center"
+          className="mb-6 rounded-2xl border border-red-500/20 glass p-4 text-center sm:mb-8"
         >
           <p className="text-red-400 font-medium">
             🔒 Voting has ended. Thank you for participating!
@@ -71,23 +71,17 @@ export function LanternGrid({ lanterns, votingEnabled, votingEnd }: LanternGridP
         </motion.div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {displayLanterns.map((lantern, index) => (
-          <motion.div
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+        {displayLanterns.map((lantern) => (
+          <LanternCard
             key={lantern.id}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.08, duration: 0.5 }}
-          >
-            <LanternCard
-              lantern={lantern}
-              votingEnabled={votingEnabled && !isVotingOver}
-              hasVoted={!!votedLanternId}
-              isVotedByMe={votedLanternId === lantern.id}
-              onVoteSuccess={handleVoteSuccess}
-              onViewDetails={() => setSelectedLantern(lantern)}
-            />
-          </motion.div>
+            lantern={lantern}
+            votingEnabled={votingEnabled && !isVotingOver}
+            hasVoted={!!votedLanternId}
+            isVotedByMe={votedLanternId === lantern.id}
+            onVoteSuccess={handleVoteSuccess}
+            onViewDetails={() => setSelectedLantern(lantern)}
+          />
         ))}
       </div>
 

@@ -11,9 +11,9 @@ interface HeroSectionProps {
 
 export function HeroSection({ votingEnabled, lanternCount }: HeroSectionProps) {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-20">
+    <section className="relative flex min-h-[92svh] flex-col items-center justify-center px-4 pb-10 pt-24 sm:min-h-screen sm:pt-24">
       {/* Background decorative lanterns */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 hidden overflow-hidden sm:block">
         {[...Array(8)].map((_, i) => (
           <FloatingLantern key={i} index={i} />
         ))}
@@ -21,19 +21,19 @@ export function HeroSection({ votingEnabled, lanternCount }: HeroSectionProps) {
 
       {/* Radial glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[600px] rounded-full bg-gold-500/5 blur-[100px]" />
+        <div className="h-72 w-72 rounded-full bg-gold-500/5 blur-[70px] sm:h-[600px] sm:w-[600px] sm:blur-[100px]" />
       </div>
 
-      <div className="relative z-10 text-center max-w-4xl mx-auto">
+      <div className="relative z-10 mx-auto w-full max-w-4xl text-center">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-8"
+          className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full glass px-3 py-2 sm:mb-8 sm:px-4"
         >
           <Star className="h-3.5 w-3.5 text-gold-500 fill-gold-500" />
-          <span className="text-sm text-gold-400 font-medium">
+          <span className="truncate text-xs font-medium text-gold-400 sm:text-sm">
             B/Badulla Central College
           </span>
           <Star className="h-3.5 w-3.5 text-gold-500 fill-gold-500" />
@@ -44,13 +44,11 @@ export function HeroSection({ votingEnabled, lanternCount }: HeroSectionProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6"
+          className="mb-5 font-display text-4xl font-bold leading-[1.15] tracking-normal sm:text-6xl md:text-7xl lg:text-8xl"
         >
-          <span className="text-foreground">Wesak</span>
+          <span className="text-foreground">ශාක්‍යමුණි</span>
           <br />
-          <span className="gold-text-animated">Lantern</span>
-          <br />
-          <span className="text-foreground">Competition</span>
+          <span className="gold-text-animated">වන්දනා</span>
         </motion.h1>
 
         {/* Year */}
@@ -58,13 +56,13 @@ export function HeroSection({ votingEnabled, lanternCount }: HeroSectionProps) {
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex items-center justify-center gap-4 mb-6"
+          className="mb-5 flex items-center justify-center gap-3 sm:gap-4"
         >
-          <div className="h-px w-16 bg-gradient-to-r from-transparent to-gold-500/50" />
-          <span className="font-display text-2xl text-gold-500 font-semibold tracking-widest">
+          <div className="h-px w-12 bg-gradient-to-r from-transparent to-gold-500/50 sm:w-16" />
+          <span className="font-display text-xl font-semibold tracking-widest text-gold-500 sm:text-2xl">
             2026
           </span>
-          <div className="h-px w-16 bg-gradient-to-l from-transparent to-gold-500/50" />
+          <div className="h-px w-12 bg-gradient-to-l from-transparent to-gold-500/50 sm:w-16" />
         </motion.div>
 
         {/* Description */}
@@ -72,10 +70,10 @@ export function HeroSection({ votingEnabled, lanternCount }: HeroSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-muted-foreground sm:mb-10 md:text-xl"
         >
           Celebrate the Festival of Lights by voting for your favourite handcrafted
-          Wesak lantern. {lanternCount} magnificent lanterns await your vote.
+          Vesak lantern. {lanternCount} magnificent lanterns await your vote.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -83,17 +81,17 @@ export function HeroSection({ votingEnabled, lanternCount }: HeroSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
         >
           <Link
             href="#vote"
-            className="btn-gold px-8 py-4 rounded-full text-base font-bold text-black inline-flex items-center gap-2 min-w-[180px] justify-center"
+            className="inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-full btn-gold px-6 py-3.5 text-base font-bold text-black sm:w-auto sm:min-w-[180px] sm:px-8 sm:py-4"
           >
             🏮 {votingEnabled ? 'Vote Now' : 'View Lanterns'}
           </Link>
           <Link
             href="#leaderboard"
-            className="glass px-8 py-4 rounded-full text-base font-semibold text-gold-400 hover:bg-gold-500/10 transition-colors inline-flex items-center gap-2 min-w-[180px] justify-center"
+            className="inline-flex w-full max-w-xs items-center justify-center gap-2 rounded-full glass px-6 py-3.5 text-base font-semibold text-gold-400 transition-colors hover:bg-gold-500/10 sm:w-auto sm:min-w-[180px] sm:px-8 sm:py-4"
           >
             📊 View Rankings
           </Link>
@@ -104,16 +102,16 @@ export function HeroSection({ votingEnabled, lanternCount }: HeroSectionProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-16 flex flex-wrap justify-center gap-8 text-center"
+          className="mt-10 grid w-full grid-cols-3 gap-2 text-center sm:mt-16 sm:flex sm:flex-wrap sm:justify-center sm:gap-8"
         >
           {[
             { label: 'Lanterns', value: lanternCount.toString() },
             { label: 'Competition', value: 'Annual' },
-            { label: 'Festival', value: 'Wesak 2026' },
+            { label: 'Festival', value: 'Vesak 2026' },
           ].map((stat) => (
-            <div key={stat.label} className="glass px-6 py-4 rounded-2xl min-w-[120px]">
-              <p className="font-display text-2xl font-bold gold-text">{stat.value}</p>
-              <p className="text-muted-foreground text-sm mt-1">{stat.label}</p>
+            <div key={stat.label} className="min-w-0 rounded-2xl glass px-3 py-3 sm:min-w-[120px] sm:px-6 sm:py-4">
+              <p className="truncate font-display text-xl font-bold gold-text sm:text-2xl">{stat.value}</p>
+              <p className="mt-1 truncate text-xs text-muted-foreground sm:text-sm">{stat.label}</p>
             </div>
           ))}
         </motion.div>
@@ -124,7 +122,7 @@ export function HeroSection({ votingEnabled, lanternCount }: HeroSectionProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-5 left-1/2 hidden -translate-x-1/2 sm:block"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
@@ -155,7 +153,7 @@ function FloatingLantern({ index }: { index: number }) {
 
   return (
     <motion.div
-      className="absolute opacity-20"
+      className={`absolute opacity-20 ${index > 3 ? 'hidden sm:block' : ''}`}
       style={{ left: pos.left, top: pos.top }}
       animate={{
         y: [0, -15, 0],
