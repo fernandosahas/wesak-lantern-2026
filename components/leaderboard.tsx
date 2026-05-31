@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Trophy, Medal, Award } from 'lucide-react'
-import { cn, formatNumber } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import type { Lantern } from '@/types'
 
 interface LeaderboardProps {
@@ -80,14 +80,6 @@ export function Leaderboard({ lanterns }: LeaderboardProps) {
                 <div className="flex-1 min-w-0">
                   <p className="truncate font-display text-lg font-semibold text-foreground">
                     {lantern.name}
-                  </p>
-                </div>
-                <div className="flex-shrink-0 rounded-xl border border-gold-500/20 bg-gold-500/10 px-3 py-1.5 text-right">
-                  <p className="font-display text-base font-bold text-gold-400">
-                    {formatNumber(lantern.vote_count)}
-                  </p>
-                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                    votes
                   </p>
                 </div>
               </div>
