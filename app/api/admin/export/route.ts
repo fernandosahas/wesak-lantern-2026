@@ -18,6 +18,44 @@ export async function GET(request: NextRequest) {
   }
 
   const supabase = createServiceClient()
+  const type = request.nextUrl.searchParams.get('type')
+
+  if (type === 'summary') {
+    const { data: lanterns, error } = await supabase
+      .from('lanterns')
+      .select('name, team_name, vote_count')
+      .order('vote_count', { ascending: false })
+      .order('name', { ascending: true })
+
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    }
+
+    const headers = ['Rank', 'Lantern Name', 'Class / Team', 'Vote Count']
+    const rows = (lanterns ?? []).map((lantern, index) => [
+      index + 1,
+      lantern.name,
+      lantern.team_name,
+      lantern.vote_count ?? 0,
+    ].map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+
+    const csv = [headers.join(','), ...rows].join('\n')
+    const filename = `wesak-lantern-vote-summary-${new Date().toISOString().slice(0, 10)}.csv`
+
+    await supabase.from('admin_logs').insert({
+      action: 'VOTES_EXPORTED',
+      details: { type: 'summary', count: lanterns?.length ?? 0 },
+      admin_id: user.id,
+    })
+
+    return new NextResponse(csv, {
+      headers: {
+        'Content-Type': 'text/csv; charset=utf-8',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Cache-Control': 'no-store',
+      },
+    })
+  }
 
   const { data: votes, error } = await supabase
     .from('votes')

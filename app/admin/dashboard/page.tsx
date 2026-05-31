@@ -3,6 +3,7 @@ import { createServiceClient } from '@/lib/supabase/server'
 import { DashboardStats } from '@/components/admin/dashboard-stats'
 import { VotingToggle } from '@/components/admin/voting-toggle'
 import { RecentVotes } from '@/components/admin/recent-votes'
+import { ExportActions } from '@/components/admin/export-actions'
 import type { Lantern, Settings, VoteWithLantern } from '@/types'
 
 export const metadata: Metadata = { title: 'Dashboard' }
@@ -65,6 +66,9 @@ export default async function DashboardPage() {
 
       {/* Voting toggle */}
       <VotingToggle settings={settings} />
+
+      {/* Exports */}
+      <ExportActions />
 
       {/* Recent votes */}
       <RecentVotes votes={recentVotes} />
