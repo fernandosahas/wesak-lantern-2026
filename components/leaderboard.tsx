@@ -1,8 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Trophy, Medal, Award, TrendingUp } from 'lucide-react'
-import { cn, formatNumber, calcPercentage } from '@/lib/utils'
+import { Trophy, Medal, Award } from 'lucide-react'
+import { cn, formatNumber } from '@/lib/utils'
 import type { Lantern } from '@/types'
 
 interface LeaderboardProps {
@@ -16,18 +16,19 @@ const rankIcons = [
 ]
 
 export function Leaderboard({ lanterns }: LeaderboardProps) {
-  const sorted = [...lanterns].sort((a, b) => b.vote_count - a.vote_count)
-  const totalVotes = lanterns.reduce((sum, l) => sum + l.vote_count, 0)
+  const sorted = [...lanterns].sort(
+    (a, b) => b.vote_count - a.vote_count || a.name.localeCompare(b.name)
+  )
 
-  if (totalVotes === 0) {
+  if (sorted.length === 0) {
     return (
-      <div className="glass rounded-3xl p-12 text-center border border-border">
-        <div className="text-6xl mb-4">🏮</div>
+      <div className="rounded-3xl border border-border glass p-8 text-center sm:p-12">
+        <div className="mb-4 text-5xl sm:text-6xl">🏮</div>
         <h3 className="font-display text-xl font-semibold text-foreground mb-2">
-          No votes yet
+          No lanterns yet
         </h3>
         <p className="text-muted-foreground">
-          Be the first to vote and help shape the leaderboard!
+          Lantern rankings will appear here once entries are added.
         </p>
       </div>
     )
@@ -35,26 +36,10 @@ export function Leaderboard({ lanterns }: LeaderboardProps) {
 
   return (
     <div className="space-y-4">
-      {/* Total votes banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="glass rounded-2xl p-4 border border-gold-500/20 flex items-center justify-between"
-      >
-        <div className="flex items-center gap-2">
-          <TrendingUp className="h-5 w-5 text-gold-500" />
-          <span className="text-muted-foreground text-sm">Total Votes Cast</span>
-        </div>
-        <span className="font-display text-2xl font-bold gold-text">
-          {formatNumber(totalVotes)}
-        </span>
-      </motion.div>
-
       {/* Leaderboard rows */}
       <div className="space-y-3">
         {sorted.map((lantern, index) => {
           const rank = index + 1
-          const pct = calcPercentage(lantern.vote_count, totalVotes)
           const rankInfo = rankIcons[index]
 
           return (
@@ -64,7 +49,7 @@ export function Leaderboard({ lanterns }: LeaderboardProps) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.06 }}
               className={cn(
-                'glass rounded-2xl p-4 border transition-all duration-300',
+                'rounded-2xl border glass p-3.5 transition-all duration-300 sm:p-4',
                 rank === 1
                   ? 'border-yellow-500/30 bg-yellow-500/5'
                   : rank === 2
@@ -74,11 +59,11 @@ export function Leaderboard({ lanterns }: LeaderboardProps) {
                   : 'border-border hover:border-gold-500/20'
               )}
             >
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
                 {/* Rank */}
                 <div
                   className={cn(
-                    'flex-shrink-0 w-10 h-10 rounded-xl border flex items-center justify-center font-display font-bold',
+                    'flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border font-display font-bold sm:h-10 sm:w-10',
                     rankInfo
                       ? `${rankInfo.bg} ${rankInfo.color}`
                       : 'bg-secondary border-border text-muted-foreground'
@@ -93,32 +78,17 @@ export function Leaderboard({ lanterns }: LeaderboardProps) {
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-1">
-                    <div>
-                      <p className="font-semibold text-foreground text-sm truncate">
-                        {lantern.name}
-                      </p>
-                      <p className="text-muted-foreground text-xs truncate">
-                        {lantern.team_name}
-                      </p>
-                    </div>
-                    <div className="text-right flex-shrink-0 ml-4">
-                      <p className="font-bold text-gold-400 text-sm">
-                        {formatNumber(lantern.vote_count)}
-                      </p>
-                      <p className="text-muted-foreground text-xs">{pct}%</p>
-                    </div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
-                    <motion.div
-                      className="h-full vote-progress rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${pct}%` }}
-                      transition={{ duration: 0.8, delay: index * 0.08, ease: 'easeOut' }}
-                    />
-                  </div>
+                  <p className="truncate font-display text-lg font-semibold text-foreground">
+                    {lantern.name}
+                  </p>
+                </div>
+                <div className="flex-shrink-0 rounded-xl border border-gold-500/20 bg-gold-500/10 px-3 py-1.5 text-right">
+                  <p className="font-display text-base font-bold text-gold-400">
+                    {formatNumber(lantern.vote_count)}
+                  </p>
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                    votes
+                  </p>
                 </div>
               </div>
             </motion.div>
