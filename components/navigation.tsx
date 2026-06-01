@@ -8,7 +8,6 @@ import { Menu, X } from 'lucide-react'
 
 const navLinks = [
   { href: '#vote', label: 'Vote' },
-  { href: '#leaderboard', label: 'Leaderboard' },
   { href: '#rules', label: 'Rules' },
 ]
 
@@ -28,14 +27,14 @@ export function Navigation() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass-strong py-2.5 sm:py-3' : 'py-3 sm:py-5 bg-transparent'
+        scrolled ? 'glass-strong py-3' : 'py-5 bg-transparent'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex min-w-0 items-center gap-2.5 group">
-            <div className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-full border border-gold-500/30 bg-background/70 shadow-[0_0_18px_rgba(245,158,11,0.18)] transition-transform group-hover:scale-105 sm:h-10 sm:w-10">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="relative h-10 w-10 overflow-hidden rounded-full border border-gold-500/30 bg-background/70 shadow-[0_0_18px_rgba(245,158,11,0.18)] transition-transform group-hover:scale-105">
               <Image
                 src="/school-logo.png"
                 alt="B/Badulla Central College logo"
@@ -45,12 +44,12 @@ export function Navigation() {
                 priority
               />
             </div>
-            <div className="min-w-0 leading-tight">
-              <p className="max-w-[190px] truncate text-[10px] font-medium uppercase tracking-wider text-muted-foreground sm:max-w-none sm:text-xs">
+            <div className="leading-tight">
+              <p className="text-xs text-muted-foreground font-medium tracking-wider uppercase">
                 B/Badulla Central College
               </p>
-              <p className="font-display text-sm font-bold gold-text sm:text-base">
-                ශාක්‍යමුණි 2026
+              <p className="font-display font-bold text-sm gold-text">
+                Vesak 2026
               </p>
             </div>
           </Link>
@@ -77,7 +76,7 @@ export function Navigation() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden -mr-2 flex h-11 w-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-gold-500/10 hover:text-gold-400"
+            className="md:hidden p-2 text-muted-foreground hover:text-gold-400 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
@@ -95,12 +94,12 @@ export function Navigation() {
               transition={{ duration: 0.2 }}
               className="md:hidden overflow-hidden"
             >
-              <div className="mt-3 space-y-1 border-t border-border/50 pb-2 pt-3">
+              <div className="pt-4 pb-2 space-y-1 border-t border-border/50 mt-4">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="block rounded-xl px-3 py-3.5 text-base font-medium text-muted-foreground transition-colors hover:bg-gold-500/10 hover:text-gold-400"
+                    className="block py-3 px-2 text-muted-foreground hover:text-gold-400 transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
                     {link.label}
@@ -108,7 +107,7 @@ export function Navigation() {
                 ))}
                 <Link
                   href="#vote"
-                  className="mt-4 block rounded-xl btn-gold px-5 py-3.5 text-center text-base font-semibold text-black"
+                  className="block mt-4 btn-gold px-5 py-3 rounded-xl text-sm font-semibold text-black text-center"
                   onClick={() => setIsOpen(false)}
                 >
                   Vote Now 🏮

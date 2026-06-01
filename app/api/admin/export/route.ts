@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/server'
 
+const EXPORT_PAGE_SIZE = 1000
+
 async function verifyAdmin(request: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -57,18 +59,31 @@ export async function GET(request: NextRequest) {
     })
   }
 
-  const { data: votes, error } = await supabase
-    .from('votes')
-    .select('id, lantern_id, ip_hash, device_hash, created_at, lanterns(name, team_name)')
-    .order('created_at', { ascending: false })
+  const votes: Record<string, unknown>[] = []
+  let page = 0
 
-  if (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+  while (true) {
+    const from = page * EXPORT_PAGE_SIZE
+    const to = from + EXPORT_PAGE_SIZE - 1
+    const { data, error } = await supabase
+      .from('votes')
+      .select('id, lantern_id, ip_hash, device_hash, created_at, lanterns(name, team_name)')
+      .order('created_at', { ascending: false })
+      .range(from, to)
+
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+    }
+
+    votes.push(...((data ?? []) as Record<string, unknown>[]))
+
+    if (!data || data.length < EXPORT_PAGE_SIZE) break
+    page += 1
   }
 
   // Build CSV manually (no external dependency)
   const headers = ['ID', 'Lantern Name', 'Team', 'IP Hash', 'Device Hash', 'Voted At']
-  const rows = (votes ?? []).map((v: Record<string, unknown>) => {
+  const rows = votes.map((v: Record<string, unknown>) => {
     const lantern = v.lanterns as Record<string, string> | null
     return [
       v.id,
@@ -87,7 +102,7 @@ export async function GET(request: NextRequest) {
   // Log the export
   await supabase.from('admin_logs').insert({
     action: 'VOTES_EXPORTED',
-    details: { count: votes?.length ?? 0 },
+    details: { type: 'full', count: votes.length },
     admin_id: user.id,
   })
 

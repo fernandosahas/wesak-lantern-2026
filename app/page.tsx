@@ -5,14 +5,14 @@ import { Navigation } from '@/components/navigation'
 import { HeroSection } from '@/components/hero-section'
 import { CountdownTimer } from '@/components/countdown-timer'
 import { LanternGrid } from '@/components/lantern-grid'
-import { Leaderboard } from '@/components/leaderboard'
 import { RulesSection } from '@/components/rules-section'
 import { Footer } from '@/components/footer'
 import { LanternGridSkeleton } from '@/components/skeletons'
 import type { Lantern, Settings } from '@/types'
 
 export const metadata: Metadata = {
-  title: 'Home | Wesak Lantern Competition 2026',
+  title: 'Home | Vesak Lantern Competition 2026',
+  
 }
 
 export const dynamic = 'force-dynamic'
@@ -81,7 +81,7 @@ export default async function HomePage() {
                 <span className="gold-text">Lanterns</span>
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                12 beautifully handcrafted Wesak lanterns, each representing the creativity
+                12 beautifully handcrafted Vesak lanterns, each representing the creativity
                 and devotion of our student teams.
               </p>
             </div>
@@ -99,21 +99,23 @@ export default async function HomePage() {
         {/* Divider */}
         <div className="section-divider mx-8 my-4" />
 
-        {/* Leaderboard */}
-        <section id="leaderboard" className="py-20 px-4">
+        {/* Results announcement */}
+        <section id="results" className="py-20 px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <p className="text-gold-500 font-medium tracking-widest uppercase text-sm mb-3">
+            <div className="text-center">
+              <p className="hidden">
                 📊 Live Rankings
               </p>
+              <p className="text-gold-500 font-medium tracking-widest uppercase text-sm mb-3">
+                Results
+              </p>
               <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
-                Leaderboard
+                Winners will announce tonight
               </h2>
-              <p className="text-muted-foreground text-lg">
-                Real-time vote standings. Updates every 30 seconds.
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                Vote counts and rankings are visible only to administrators until the final announcement.
               </p>
             </div>
-            <Leaderboard lanterns={lanterns} />
           </div>
         </section>
 
